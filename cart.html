@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>طلب قطعة - كمالو</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+<header>
+    <nav class="navbar">
+        <div class="logo">كمالو</div>
+        <ul class="nav-links">
+            <li><a href="index.html">الرئيسية</a></li>
+            <li><a href="#contact">تواصل</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="section" style="text-align:center; padding:40px 20px;">
+    <h2>اطلب قطعة من كمالو</h2>
+    <p>اكتب اسم القطعة أو وصفها وسيتم إرسال الطلب مباشرة على واتساب.</p>
+
+    <div style="margin-top:25px;">
+        <input id="itemInput" type="text" placeholder="مثال: فلتر زيت هيونداي"
+        style="width:80%; max-width:400px; padding:12px; font-size:18px; border:1px solid #ccc; border-radius:6px;">
+    </div>
+
+    <button onclick="sendWhatsApp()" 
+    style="margin-top:20px; padding:12px 25px; font-size:18px; background:#25d366; color:white; border:none; border-radius:6px; cursor:pointer;">
+        ارسال عبر واتساب
+    </button>
+</section>
+
+<script>
+function sendWhatsApp() {
+    let item = document.getElementById("itemInput").value.trim();
+
+    if (item === "") {
+        alert("من فضلك اكتب اسم القطعة");
+        return;
+    }
+
+    let message = `مرحباً، أنا مهتم بقطعة: ${item} — هل يمكن معرفة السعر والمزيد من التفاصيل؟`;
+    let phone = "201226205203"; // رقمك
+
+    let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
+}
+</script>
+
+</body>
+</html>
