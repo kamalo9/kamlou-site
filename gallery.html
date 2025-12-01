@@ -1,73 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>معرض الصور</title>
-    <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-    <header>
-        <nav class="navbar">
-            <div class="logo">كمالو</div>
-            <ul class="nav-links">
-                <li><a href="index.html">الرئيسية</a></li>
-                <li><a href="products.html">المنتجات</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main class="products-container">
-        <h2>معرض الصور</h2>
-
-        <div style="margin-bottom:1rem; text-align:right;">
-            <select id="catSelect">
-                <option value="">كل الفئات</option>
-                <option value="مساعدين">مساعدين</option>
-                <option value="كبالن">كبالن</option>
-                <option value="فلاتر">فلاتر</option>
-                <option value="تيل فرامل">تيل فرامل</option>
-            </select>
-        </div>
-
-        <div class="gallery-grid" id="galleryGrid"></div>
-    </main>
-
-    <!-- lightbox -->
-    <div id="lightbox" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); align-items:center; justify-content:center; z-index:2000;">
-        <img id="lightImg" src="" style="max-width:90%; max-height:90%; border-radius:8px;">
-    </div>
-
-    <a class="floating-ws" id="globalWs" href="https://wa.me/201226205203" target="_blank">📱</a>
-
-    <script>
-        const images = [
-            {src:'assets/gallery1.jpg', cat:'مساعدين'},
-            {src:'assets/gallery2.jpg', cat:'كبالن'},
-            {src:'assets/gallery3.jpg', cat:'فلاتر'},
-            {src:'assets/gallery4.jpg', cat:'تيل فرامل'},
-            {src:'assets/gallery5.jpg', cat:'مساعدين'},
-            {src:'assets/gallery6.jpg', cat:'فلاتر'}
-        ];
-
-        function renderGallery(filter=''){
-            const grid = document.getElementById('galleryGrid'); grid.innerHTML='';
-            const list = images.filter(i=>!filter || i.cat===filter);
-            list.forEach(img=>{
-                const div = document.createElement('div'); div.className='gallery-item';
-                div.innerHTML = `<img src="${img.src}" alt="${img.cat}" onerror="this.src='assets/placeholder.png'">`;
-                div.onclick = ()=> openLightbox(img.src);
-                grid.appendChild(div);
-            });
-        }
-        function openLightbox(src){
-            document.getElementById('lightImg').src = src;
-            const lb = document.getElementById('lightbox'); lb.style.display='flex';
-            lb.onclick = ()=> lb.style.display='none';
-        }
-
-        document.getElementById('catSelect').addEventListener('change', (e)=> renderGallery(e.target.value));
-        renderGallery();
-    </script>
-</body>
-</html>
