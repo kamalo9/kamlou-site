@@ -1,89 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>تفاصيل المنتج</title>
-    <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-    <header>
-        <nav class="navbar">
-            <div class="logo">كمالو</div>
-            <ul class="nav-links">
-                <li><a href="index.html#home">الرئيسية</a></li>
-                <li><a href="products.html">المنتجات</a></li>
-                <li><a href="cart.html">السلة</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main class="product-detail-wrapper">
-        <div class="product-gallery" id="galleryWrap">
-            <img id="mainImg" src="assets/placeholder.png" alt="" style="width:100%;height:360px;object-fit:contain;border-radius:6px;">
-            <div class="detail-thumbs" id="thumbs"></div>
-        </div>
-
-        <aside style="padding:1rem;">
-            <h2 id="pTitle">عنوان المنتج</h2>
-            <div id="pPrice" style="font-weight:900;font-size:1.2rem;margin:0.7rem 0;">0 جنيه</div>
-            <p id="pDesc">وصف المنتج</p>
-
-            <h3 style="margin-top:1rem">الموديلات المناسبة</h3>
-            <ul id="pModels"></ul>
-
-            <div style="margin-top:1rem; display:flex; gap:0.6rem;">
-                <button id="addCartBtn" class="add-cart">أضف للسلة</button>
-                <a id="wsBtn" class="btn-ws" href="#" target="_blank">اطلب عبر واتساب</a>
-            </div>
-        </aside>
-    </main>
-
-    <a class="floating-ws" id="globalWs" href="https://wa.me/201226205203" target="_blank">📱</a>
-
-    <script>
-        // same dataset as products.html (or load from a shared JSON)
-        const products = [
-            {id:1, brand:'Hyundai', title:'فلتر هواء هيونداي H100', price:220, desc:'فلتر هواء أصلي مناسب لمحرك H100', imgs:['assets/product1.jpg','assets/product1-2.jpg'], models:['H100 2008','H100 2012']},
-            {id:2, brand:'Lancer', title:'بلاطة فرامل أمامي لانسر', price:450, desc:'طقم بلاطات أمامية للقوة', imgs:['assets/product2.jpg'], models:['Lancer 2002','Lancer 2006']},
-            {id:3, brand:'Kia', title:'عمود مرفق كيا سيراتو', price:1250, desc:'عمود مرفق أصلي', imgs:['assets/product3.jpg'], models:['Cerato 2010-2015']},
-            {id:4, brand:'Nissan', title:'طرمبة مياه نيسان', price:380, desc:'طرمبة مياه قوية', imgs:['assets/product4.jpg'], models:['Sunny 2014','Tiida 2012']},
-            {id:5, brand:'Generic', title:'بطارية 12V 60Ah', price:980, desc:'بطارية سعة 60 أمبير', imgs:['assets/product5.jpg'], models:[]},
-            {id:6, brand:'Generic', title:'طقم شمعات إشعال', price:140, desc:'طقم شمعات جودة عالية', imgs:['assets/product6.jpg'], models:[]}
-        ];
-
-        const shopPhone = '+201226205203';
-
-        function getProductFromURL(){
-            const id = parseInt(new URLSearchParams(location.search).get('id') || '0');
-            return products.find(p=>p.id===id);
-        }
-
-        function showProduct(p){
-            if(!p){ document.getElementById('pTitle').textContent='المنتج غير موجود'; return; }
-            document.getElementById('pTitle').textContent = p.title;
-            document.getElementById('pPrice').textContent = p.price + ' جنيه';
-            document.getElementById('pDesc').textContent = p.desc;
-            const mainImg = document.getElementById('mainImg'); mainImg.src = p.imgs[0] || 'assets/placeholder.png';
-            const thumbs = document.getElementById('thumbs'); thumbs.innerHTML = '';
-            (p.imgs||[]).forEach(src=>{
-                const im = document.createElement('img'); im.src = src; im.onclick = ()=> mainImg.src = src; thumbs.appendChild(im);
-            });
-            const modelsList = document.getElementById('pModels'); modelsList.innerHTML = '';
-            (p.models||[]).forEach(m=>{
-                const li = document.createElement('li'); li.textContent = m; modelsList.appendChild(li);
-            });
-            document.getElementById('wsBtn').href = `https://wa.me/${shopPhone.replace('+','')}?text=${encodeURIComponent('مرحبًا، أريد طلب المنتج: '+p.title+' رقم: '+p.id)}`;
-            document.getElementById('addCartBtn').onclick = ()=> {
-                const cart = JSON.parse(localStorage.getItem('kml_cart')||'[]');
-                const found = cart.find(i=>i.id===p.id);
-                if(found) found.qty++; else cart.push({id:p.id,title:p.title,price:p.price,qty:1});
-                localStorage.setItem('kml_cart', JSON.stringify(cart));
-                alert('تمت إضافة المنتج إلى السلة');
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', ()=> showProduct(getProductFromURL()));
-    </script>
-</body>
-</html>
