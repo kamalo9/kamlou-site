@@ -1,0 +1,21 @@
+backend:
+  name: github
+  repo: kamalo9/kamlou-site
+  branch: main
+  auth_type: implicit
+  app_id: Ov23lizc1PJ2UhqBoB8U
+
+media_folder: "assets"
+public_folder: "/assets"
+
+collections:
+  - name: "products"
+    label: "Products"
+    folder: "products"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Product Name", name: "name", widget: "string" }
+      - { label: "Price", name: "price", widget: "number" }
+      - { label: "Image", name: "image", widget: "image" }
+      - { label: "Description", name: "description", widget: "text" }
